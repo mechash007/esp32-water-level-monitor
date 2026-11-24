@@ -8,7 +8,7 @@ import streamlit as st
 CHANNEL_ID = "3392651"
 # Leave empty "" if your ThingSpeak channel is Public; add Read API Key if Private
 READ_API_KEY = "QVF11YPPDXTJYPMD"
-SENSOR_HEIGHT_CM = 300.0
+SENSOR_HEIGHT_CM = 125.0
 ALARM_DISTANCE_THRESHOLD_CM = 105.0
 REFRESH_INTERVAL_SEC = 20
 
@@ -31,7 +31,7 @@ def fetch_thingspeak_data(channel_id: str, read_key: str, results: int = 100) ->
         return pd.DataFrame()
 
     df = pd.DataFrame(feeds)
-    df["created_at"] = pd.to_datetime(df["created_at"])
+    df["created_at"] = pd.to_datetime(df["created_at"], utc=True).dt.tz_convert("Asia/Kolkata")
     df["distance_cm"] = pd.to_numeric(df["field1"], errors="coerce")
     df["water_level_cm"] = pd.to_numeric(df["field2"], errors="coerce")
     return df.dropna(subset=["distance_cm", "water_level_cm"])
@@ -66,7 +66,7 @@ try:
                 f"(threshold: ≤ {ALARM_DISTANCE_THRESHOLD_CM:.0f} cm)."
             )
         else:
-            st.success(f"✅ Normal Level — Last updated: {latest['created_at'].strftime('%Y-%m-%d %H:%M:%S UTC')}")
+            st.success(f"✅ Normal Level — Last updated: {latest['created_at'].strftime('%Y-%m-%d %H:%M:%S IST')}")
 
         # Top KPI Metrics
         col1, col2, col3 = st.columns(3)
