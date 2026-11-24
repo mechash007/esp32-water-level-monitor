@@ -9,7 +9,7 @@ CHANNEL_ID = "3392651"
 # Leave empty "" if your ThingSpeak channel is Public; add Read API Key if Private
 READ_API_KEY = "QVF11YPPDXTJYPMD"
 SENSOR_HEIGHT_CM = 300.0
-ALARM_DISTANCE_THRESHOLD_CM = 270.0
+ALARM_DISTANCE_THRESHOLD_CM = 105.0
 REFRESH_INTERVAL_SEC = 20
 
 st.set_page_config(page_title="Water Level Monitor", page_icon="💧", layout="wide")
